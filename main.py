@@ -13,11 +13,13 @@ bot = commands.Bot(command_prefix='!', intents=intents)  # "!" komut önekiyle b
 @bot.event  # Bot başarıyla başlatıldığında tetiklenecek olayı tanımlama
 async def on_ready():
    print(f'Giriş yapıldı:  {bot.user.name}')  # Discord'da başarılı oturum açma hakkında konsolda bir mesaj görüntüleyin
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    await message.channel.send(message.content)
+
+@bot.event
+async def on_member_join(member):
+    # Karşılama mesajı gönderme
+    for channel in member.guild.text_channels:
+        await channel.send(f' Hoş geldiniz: , {member.mention}!')
+                           
 @bot.command()  # Kullanıcı "!start" girdiğinde çağrılacak "start" komutunu tanımlayın
 async def start(ctx):
     await ctx.send("Merhaba! Ben bir sohbet yöneticisi botuyum!")  # Sohbet odasına geri mesaj gönderme
@@ -44,6 +46,4 @@ async def ban_error(ctx, error):
 bot.run(token)  # Kimlik doğrulama için token kullanarak botu başlatma
  
 
-
-5 / 8
 
